@@ -1,0 +1,34 @@
+﻿<Window x:Class="JenkinsSentinel.NewJob"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Add new Jenkins Job" Height="350" Width="300" Icon="img/sentineljenkins.png">
+    <Grid Margin="10" Height="Auto" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <Label Grid.Row="0" Content="Job name:"  />
+        <TextBox Name="txt_new_job_name" Grid.Row="1" ToolTip="If not provided, it will be the same as Job URL" TextChanged="txt_new_job_name_TextChanged"></TextBox>
+        <Label Grid.Row="2" Content="Job URL:" />
+        <TextBox Name="txt_new_job_url" Grid.Row="3" TextChanged="txt_new_job_url_TextChanged"></TextBox>
+        <StackPanel Orientation="Horizontal" Grid.Row="4" Margin="5">
+             <CheckBox Name="check_temporary_job"  Content="Temporary job" ToolTip="A Jenkins job is considered to be temporary when only result of one build is being watched, for example buildbot / CMD Exec. Temporary jobs are not updated after the build is done." Checked="check_temporary_job_Checked" Unchecked="check_temporary_job_Unchecked" />
+             <CheckBox Name="check_remove_done_job"  Content="Remove built job" IsEnabled="False" Margin="15,0,0,0" ToolTip="Remove the job from the list when the build is done regardless of the result state. Notification is shown." />
+        </StackPanel>
+        
+        <StackPanel Grid.Row="5">
+            <Label>Notification settings:</Label>
+            <CheckBox Name="check_notify_green" Margin="3">Notify when job becomes green</CheckBox>
+            <CheckBox Name="check_notify_red" Margin="3">Notify when job becomes red</CheckBox>
+            <CheckBox Name="check_notify_status_changes" Margin="3">Notify when job status changes</CheckBox>
+            <CheckBox Name="check_notify_build_completed" IsChecked="True" Margin="3">Notify when build is completed</CheckBox>
+        </StackPanel>
+        <Button Name="btn_add_new_job" IsEnabled="False" Content="Add Job" Grid.Row="6" Width="100" Margin="10" Click="btn_add_new_job_Click"></Button>
+    </Grid>
+</Window>

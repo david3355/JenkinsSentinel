@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JenkinsSentinel", "JenkinsSentinel\JenkinsSentinel.csproj", "{B298E4CA-0EAF-49FC-8AE0-53BB3F756209}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JenkinsSentinelTests", "JenkinsSentinelTests\JenkinsSentinelTests.csproj", "{667E23CD-AE47-411C-98A5-F2FE851712F5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F236565E-4757-48DB-BEF0-B8A5D43BB23D}"
+	ProjectSection(SolutionItems) = preProject
+		JenkinsSentinel.vsmdi = JenkinsSentinel.vsmdi
+		Local.testsettings = Local.testsettings
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = JenkinsSentinel.vsmdi
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B298E4CA-0EAF-49FC-8AE0-53BB3F756209}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{B298E4CA-0EAF-49FC-8AE0-53BB3F756209}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{B298E4CA-0EAF-49FC-8AE0-53BB3F756209}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{B298E4CA-0EAF-49FC-8AE0-53BB3F756209}.Debug|x86.ActiveCfg = Debug|x86
+		{B298E4CA-0EAF-49FC-8AE0-53BB3F756209}.Debug|x86.Build.0 = Debug|x86
+		{B298E4CA-0EAF-49FC-8AE0-53BB3F756209}.Release|Any CPU.ActiveCfg = Release|x86
+		{B298E4CA-0EAF-49FC-8AE0-53BB3F756209}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{B298E4CA-0EAF-49FC-8AE0-53BB3F756209}.Release|Mixed Platforms.Build.0 = Release|x86
+		{B298E4CA-0EAF-49FC-8AE0-53BB3F756209}.Release|x86.ActiveCfg = Release|x86
+		{B298E4CA-0EAF-49FC-8AE0-53BB3F756209}.Release|x86.Build.0 = Release|x86
+		{667E23CD-AE47-411C-98A5-F2FE851712F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{667E23CD-AE47-411C-98A5-F2FE851712F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{667E23CD-AE47-411C-98A5-F2FE851712F5}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{667E23CD-AE47-411C-98A5-F2FE851712F5}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{667E23CD-AE47-411C-98A5-F2FE851712F5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{667E23CD-AE47-411C-98A5-F2FE851712F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{667E23CD-AE47-411C-98A5-F2FE851712F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{667E23CD-AE47-411C-98A5-F2FE851712F5}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{667E23CD-AE47-411C-98A5-F2FE851712F5}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{667E23CD-AE47-411C-98A5-F2FE851712F5}.Release|x86.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

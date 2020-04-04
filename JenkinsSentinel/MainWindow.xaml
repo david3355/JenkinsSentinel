@@ -1,0 +1,112 @@
+﻿<Window x:Class="JenkinsSentinel.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="JenkinsSentinel" Height="300" Width="525" Icon="img/sentineljenkins.png" Closing="Window_Closing">
+
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </Window.Resources>
+
+    <DockPanel LastChildFill="True"  Background="#2C136DBA" >
+        <Menu DockPanel.Dock="Top" Height="Auto">
+            <MenuItem Header="Jobs" HorizontalAlignment="Center">
+                <MenuItem  Name="menu_add_new_job" Header="Add new Job" Click="menu_add_new_job_Click"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="Info" HorizontalAlignment="Center">
+                <MenuItem  Name="menu_get_token" Header="How to get Jenkins token" Click="menu_get_token_Click"></MenuItem>
+                <MenuItem  Name="menu_product_info" Header="Product information" Click="menu_product_info_Click"></MenuItem>
+            </MenuItem>
+        </Menu>
+        <TextBox Name="text_status" Visibility="Collapsed" DockPanel.Dock="Bottom" IsEnabled="True" TextAlignment="Center" FontSize="8" Background="#FFC4FFDB" IsReadOnly="True"></TextBox>
+        <TextBox Name="text_error" Visibility="Collapsed" DockPanel.Dock="Bottom" IsEnabled="True" FontStyle="Italic" FontSize="11" Background="#FFFFC4C4" IsReadOnly="True"></TextBox>
+        <Grid Name="panel_login" Visibility="Visible" VerticalAlignment="Center" HorizontalAlignment="Center" DockPanel.Dock="Bottom" >
+            <Grid  Width="Auto" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="50">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0">Username</Label>
+                <TextBox Grid.Row="1" Name="txt_username" TextChanged="txt_username_TextChanged"></TextBox>
+                <Label Grid.Row="2">Jenkins token</Label>
+                <TextBox Grid.Row="3" Name="txt_passkey" TextChanged="txt_passkey_TextChanged" ></TextBox>
+                <Grid  Grid.Row="4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Button Name="btn_login" IsEnabled="False" Width="100" Margin="10" Click="btn_login_Click">Login</Button>
+                    <CheckBox Name="check_save_login" IsChecked="True" Grid.Column="1" VerticalAlignment="Center">Save login creds</CheckBox>
+                </Grid>
+            </Grid>
+        </Grid>
+        <Grid Name="panel_jobs" Visibility="Collapsed" DockPanel.Dock="Bottom">
+            <ListBox Name="list_jobs" Background="Transparent" BorderBrush="Transparent" Margin="1,1,1,0" ItemsSource="{Binding}" HorizontalContentAlignment="Stretch" >
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border Name="job_item" CornerRadius="5" Margin="1,1,1,1">
+                            <Border.Background>
+                                <SolidColorBrush Color="#56136DBA"  />
+                            </Border.Background>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Grid Grid.Column="0">
+                                    <Image Name="img_build_in_progress" Grid.Column="2" Width="20" VerticalAlignment="Center" Source="img\building.png" Margin="5" Visibility= "{Binding Building, Converter={StaticResource BooleanToVisibilityConverter}}"  />
+                                    <Ellipse Name="job_state_indicator"  VerticalAlignment="Center" Width="30" Height="30" Margin="5" ToolTip="{Binding Path=JobInfo, Mode=OneWay}">
+                                        <Ellipse.Fill>
+                                            <SolidColorBrush Color="{Binding Path=JobStatusColor, Mode=OneWay}" />
+                                        </Ellipse.Fill>
+                                        <Ellipse.Style>
+                                            <Style TargetType="Ellipse">
+                                                <Setter Property="Opacity" Value="1"  />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Path=Building}" Value="True">
+                                                        <DataTrigger.EnterActions>
+                                                            <BeginStoryboard Name="build_animation">
+                                                                <Storyboard Duration="00:00:01" RepeatBehavior="Forever" AutoReverse="True">
+                                                                    <DoubleAnimation From="1" To="0" By="0.1"  Storyboard.TargetProperty="Opacity"/>
+                                                                </Storyboard>
+                                                            </BeginStoryboard>
+                                                        </DataTrigger.EnterActions>
+                                                        <DataTrigger.ExitActions>
+                                                            <StopStoryboard BeginStoryboardName="build_animation"/>
+                                                        </DataTrigger.ExitActions>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Ellipse.Style>
+                                    </Ellipse>
+                                    
+                                </Grid>
+                                <Label Name="job_name" VerticalAlignment="Center"  Grid.Column="1"  Content="{Binding Path=JobName, Mode=OneWay}" ToolTip="{Binding Path=JobUrl, Mode=OneWay}" FontSize="16"  MouseLeftButtonUp="job_name_MouseLeftButtonUp" ></Label>
+                                <Grid Grid.Column="2" Margin="7">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <Image Name="img_move_up" Grid.Row="0" Width="16" Height="10" VerticalAlignment="Center" Source="img\up.png" Margin="4"  ToolTip="Move job up" MouseLeftButtonUp="img_move_up_MouseLeftButtonUp"  />
+                                    <Image Name="img_move_down" Grid.Row="1" Width="16" Height="10" VerticalAlignment="Center" Source="img\down.png" Margin="4"  ToolTip="Move job down" MouseLeftButtonUp="img_move_down_MouseLeftButtonUp" />
+                                </Grid>
+
+                                <Image Name="img_refresh_job" Grid.Column="3" Width="30" VerticalAlignment="Center" Source="img\refresh.png" Margin="5" MouseLeftButtonUp="img_refresh_job_MouseLeftButtonUp" ToolTip="Force refresh Job" />
+                                <Image Name="img_open_job" Grid.Column="4" Width="30" VerticalAlignment="Center" Source="img\open.png" Margin="5" MouseLeftButtonUp="img_open_job_MouseLeftButtonUp" ToolTip="Open Job in Jenkins" />
+                                <Image Name="img_delete_job" Grid.Column="5" Width="30" VerticalAlignment="Center" Source="img\delete.png" Margin="5" MouseLeftButtonUp="img_delete_job_MouseLeftButtonUp" ToolTip="Remove Job" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+        </Grid>
+
+    </DockPanel>
+</Window>

@@ -1,0 +1,15 @@
+﻿<Window x:Class="JenkinsSentinel.PasskeyInfo"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="How to get Jenkins token"  Height="300" Width="600" Icon="img/sentineljenkins.png" >
+    <Grid>
+        <TextBlock Margin="8" FontSize="16" TextWrapping="Wrap">
+            1. Log in to Jenkins <LineBreak/>
+            2. Click you name (upper-right corner). <LineBreak/>
+            3. Click Configure (left-side menu). <LineBreak/>
+            4. Use "Add new Token" button to generate a new one then name it. <LineBreak/>
+            5. You must copy the token when you generate it as you cannot view the token afterwards. <LineBreak/>
+            6. Revoke old tokens when no longer needed.
+        </TextBlock>
+    </Grid>
+</Window>

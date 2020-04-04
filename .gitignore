@@ -1,0 +1,7 @@
+packages
+Packages.dgml
+JenkinsSentinel/bin
+JenkinsSentinel/obj
+TestResults
+JenkinsSentinelTests/bin
+JenkinsSentinelTests/obj
