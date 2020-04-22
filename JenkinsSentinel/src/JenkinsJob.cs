@@ -20,6 +20,7 @@ namespace JenkinsSentinel.src
             this.removeIfCompleted = false;
             this.notifySettings = new NotifySettings();
             this.index = Index;
+            this.category = DEFAULT_CATEGORY;
         }
 
         public JenkinsJob() { }
@@ -35,6 +36,9 @@ namespace JenkinsSentinel.src
         private NotifySettings notifySettings;
         private int index;
         private int lastCompletedBuildNumber;
+        private string category;
+
+        private const string DEFAULT_CATEGORY = "cbam";
 
         private const string SUCCESS = "SUCCESS";
         private const string ABORTED = "ABORTED";
@@ -116,6 +120,13 @@ namespace JenkinsSentinel.src
         {
             get { return lastCompletedBuildNumber; }
             set { this.lastCompletedBuildNumber = value; }
+        }
+
+        [XmlAttribute]
+        public string Category
+        {
+            get { return category; }
+            set { this.category = value; }
         }
 
         public NotifySettings NotifySettings
