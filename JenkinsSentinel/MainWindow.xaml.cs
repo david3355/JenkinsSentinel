@@ -150,6 +150,8 @@ namespace JenkinsSentinel
 
                 panel_login.Visibility = Visibility.Collapsed;
                 panel_jobs.Visibility = Visibility.Visible;
+                menu_jobs.IsEnabled = true;
+                menu_templates.IsEnabled = true;
             }
             else MessageBox.Show("Login credentials are not valid!");
         }
