@@ -7,6 +7,8 @@ using System.Net;
 using Newtonsoft.Json;
 using System.Xml.Serialization;
 using System.Timers;
+using JenkinsSentinel.src.jenkinsinput;
+using Threading = System.Threading;
 
 namespace JenkinsSentinel.src
 {
@@ -68,9 +70,12 @@ namespace JenkinsSentinel.src
         {
             eventHandler.CheckCycleExpired();
             bool success = true;
-            foreach (JenkinsJob job in jobs)
+            lock (jobs)
             {
-                success &= UpdateJob(job);
+                foreach (JenkinsJob job in jobs)
+                {
+                    success &= UpdateJob(job);
+                }
             }
             eventHandler.CheckCycleFinished(success);
         }
@@ -93,7 +98,10 @@ namespace JenkinsSentinel.src
 
         public void RemoveJob(JenkinsJob Job)
         {
-            jobs.Remove(Job);
+            lock (jobs)
+            {
+                jobs.Remove(Job);
+            }
             eventHandler.JobRemoved(Job);
         }
 
@@ -124,8 +132,12 @@ namespace JenkinsSentinel.src
             JenkinsWorkflow job = GetJobReport(NewJob);
             if (job == null) return;
             NewJob.UpdateJobStatus(job);
-            this.jobs.Add(NewJob);
+            lock (jobs)
+            {
+                this.jobs.Add(NewJob);
+            }
             lastIndex = NewJob.Index;
+            eventHandler.JobAdded(NewJob);
         }
 
         public bool MoveJobIndexUp(JenkinsJob Job)
@@ -228,6 +240,43 @@ namespace JenkinsSentinel.src
             }
             return null;
 
+        }
+
+        private string GetJsonInput(JenkinsInput Input)
+        {
+            return JsonConvert.SerializeObject(Input);
+        }
+
+        public void StartNewJobFromTemplate(JenkinsTemplate Template, string JobName)
+        {
+            JenkinsJob newJob = new JenkinsJob(JobName, Template.JobUrl, false, lastIndex + 1);
+            WorkflowJob job = GetJobReport(newJob) as WorkflowJob;
+            int lastBuildNumberOfJob = job.lastBuild.number;
+
+            string jobInputParams = GetJsonInput(Template.GetInput());
+            HttpWebResponse response = client.Post(Template.BuildJobUrl, jobInputParams);
+            string location = response.Headers["Location"];
+
+            Threading.Thread adder = new Threading.Thread(() =>
+            {
+                int numOfMaxTrial = 20;
+                int lastNumber = lastBuildNumberOfJob;
+                do
+                {
+                    Threading.Thread.Sleep(2000);
+                    WorkflowJob report = GetJobReport(newJob) as WorkflowJob;
+                    if (report != null) lastNumber = report.lastBuild.number;
+                    numOfMaxTrial--;
+                }
+                while (lastBuildNumberOfJob == lastNumber && numOfMaxTrial > 0);
+
+                newJob.IsTemporary = true;
+                newJob.RemoveIfCompleted = true;
+                newJob.NotifySettings = new NotifySettings() { NotifyWhenBuildIsComplete = true };
+                newJob.JobUrl = String.Format("{0}/{1}", newJob.JobUrl, lastNumber);
+                AddNewJob(newJob);
+            });
+            adder.Start();
         }
     }
 }

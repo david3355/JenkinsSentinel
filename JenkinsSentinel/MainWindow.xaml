@@ -12,6 +12,12 @@
             <MenuItem Header="Jobs" HorizontalAlignment="Center">
                 <MenuItem  Name="menu_add_new_job" Header="Add new Job" Click="menu_add_new_job_Click"></MenuItem>
             </MenuItem>
+            <MenuItem Header="Templates" HorizontalAlignment="Center">
+                <MenuItem  Name="menu_jumpstart" Header="Jumpstart" Click="menu_jumpstart_Click"></MenuItem>
+                <MenuItem  Name="menu_buildbot" Header="Buildbot" Click="menu_buildbot_Click"></MenuItem>
+                <MenuItem  Name="menu_itenv" Header="IT Environment" Click="menu_itenv_Click"></MenuItem>
+                <MenuItem  Name="menu_e2e_env" Header="E2E Test Environment" Click="menu_e2e_env_Click"></MenuItem>
+            </MenuItem>
             <MenuItem Header="Info" HorizontalAlignment="Center">
                 <MenuItem  Name="menu_get_token" Header="How to get Jenkins token" Click="menu_get_token_Click"></MenuItem>
                 <MenuItem  Name="menu_product_info" Header="Product information" Click="menu_product_info_Click"></MenuItem>

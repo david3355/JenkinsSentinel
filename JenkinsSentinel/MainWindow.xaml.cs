@@ -15,6 +15,7 @@ using JenkinsSentinel.src;
 using System.IO;
 using System.ComponentModel;
 using System.Windows.Threading;
+using JenkinsSentinel.src.jenkinsinput;
 
 namespace JenkinsSentinel
 {
@@ -50,6 +51,7 @@ namespace JenkinsSentinel
         private Persistor persistor;
         private const int CHECK_PERIOD = 15000;
         private DateTime lastChecked;
+        private string CurrentUser = String.Empty;
 
         private void ShowNotification(JenkinsJob UpdatedJob)
         {
@@ -138,6 +140,7 @@ namespace JenkinsSentinel
             string passkey = txt_passkey.Text;
             if (AreLoginCredsAuthorized(username, passkey))
             {
+                CurrentUser = username;
                 JenkinsCredentials creds = new JenkinsCredentials(username, passkey);
                 sentinel.SetCredentials(creds);
                 this.Title = String.Format("Jenkins Sentinel - [{0}]", username);
@@ -235,6 +238,15 @@ namespace JenkinsSentinel
             persistor.PersistJobs(sentinel);
         }
 
+        public void JobAdded(JenkinsJob Job)
+        {
+            this.Dispatcher.Invoke(new Action(() =>
+            {
+                list_jobs.Items.Add(Job);
+                RefreshJobList();
+            }));
+            persistor.PersistJobs(sentinel);
+        }
 
         public void CheckCycleFinished(bool Success)
         {
@@ -297,6 +309,27 @@ namespace JenkinsSentinel
         private void img_move_down_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             MoveSelectedJobDown();
+        }
+
+        private void menu_jumpstart_Click(object sender, RoutedEventArgs e)
+        {
+            BranchSelector branchSelector = new BranchSelector(new Jumpstart(CurrentUser), sentinel);
+            branchSelector.Show();
+        }
+
+        private void menu_buildbot_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Not implemented yet!");
+        }
+
+        private void menu_itenv_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Not implemented yet!");
+        }
+
+        private void menu_e2e_env_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Not implemented yet!");
         }
     }
 }

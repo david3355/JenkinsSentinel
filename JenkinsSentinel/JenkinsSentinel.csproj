@@ -74,11 +74,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BranchSelector.xaml.cs">
+      <DependentUpon>BranchSelector.xaml</DependentUpon>
+    </Compile>
     <Compile Include="InfoTemplate.xaml.cs">
       <DependentUpon>InfoTemplate.xaml</DependentUpon>
     </Compile>
     <Compile Include="JobEditor.xaml.cs">
       <DependentUpon>JobEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="JobTemplateEditor.xaml.cs">
+      <DependentUpon>JobTemplateEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="NewJob.xaml.cs">
       <DependentUpon>NewJob.xaml</DependentUpon>
@@ -88,6 +94,9 @@
     </Compile>
     <Compile Include="src\jenkinsdata\JenkinsWorkflow.cs" />
     <Compile Include="src\ISentinelEvents.cs" />
+    <Compile Include="src\jenkinsinput\JenkinsInput.cs" />
+    <Compile Include="src\jenkinsinput\JobEditorParameter.cs" />
+    <Compile Include="src\jenkinsinput\JenkinsTemplate.cs" />
     <Compile Include="TokenInfo.xaml.cs">
       <DependentUpon>TokenInfo.xaml</DependentUpon>
     </Compile>
@@ -100,11 +109,19 @@
     <Compile Include="src\Persistor.cs" />
     <Compile Include="src\Sentinel.cs" />
     <Compile Include="src\ReportCallback.cs" />
+    <Page Include="BranchSelector.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="InfoTemplate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="JobEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="JobTemplateEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

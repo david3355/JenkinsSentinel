@@ -9,6 +9,7 @@ namespace JenkinsSentinel.src
     {
         void ConnectionError(string ErrorMessage, string ErrorDetails);
         void ConnectionWorks();
+        void JobAdded(JenkinsJob Job);
         void JobRemoved(JenkinsJob Job);
         void CheckCycleExpired();
         void CheckCycleFinished(bool Success);

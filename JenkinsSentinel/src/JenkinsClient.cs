@@ -38,24 +38,26 @@ namespace JenkinsSentinel.src
             return response != null && response.StatusCode == HttpStatusCode.OK;
         }
 
-        public void Post(string Uri, Object postParameters)
+        public HttpWebResponse Post(string Uri, string postData)
         {
-            string postData = JsonConvert.SerializeObject(postParameters);
+            //postData = System.Uri.EscapeDataString(postData);
+            postData = String.Format("json={0}", postData);
             byte[] bytes = Encoding.UTF8.GetBytes(postData);
             HttpWebRequest httpWebRequest = GetRequest(Uri);
             httpWebRequest.Method = "POST";
             httpWebRequest.ContentLength = bytes.Length;
-            httpWebRequest.ContentType = "text/json";
+            httpWebRequest.ContentType = "application/x-www-form-urlencoded";
             using (Stream requestStream = httpWebRequest.GetRequestStream())
             {
                 requestStream.Write(bytes, 0, bytes.Count());
             }
             HttpWebResponse httpWebResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-            if (httpWebResponse.StatusCode != HttpStatusCode.OK)
+            if (httpWebResponse.StatusCode != HttpStatusCode.Created)
             {
-                string message = String.Format("POST failed. Received HTTP {0}", httpWebResponse.StatusCode);
-                throw new ApplicationException(message);
+                string message = String.Format("POST failed. Received HTTP status {0}", httpWebResponse.StatusCode);
+                throw new Exception(message);
             }
+            return httpWebResponse;
         }
 
 

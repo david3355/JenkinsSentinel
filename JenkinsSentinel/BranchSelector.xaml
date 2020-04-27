@@ -1,0 +1,13 @@
+﻿<Window x:Class="JenkinsSentinel.BranchSelector"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Select branch" Height="150" Width="300" Icon="img/sentineljenkins.png" >
+
+    <Grid Background="#2C136DBA">
+        <StackPanel>
+            <ComboBox Name="list_branches" Margin="20">
+            </ComboBox>
+            <Button Name="btn_select_branch" Margin="10" Width="150" Click="btn_select_branch_Click">Select branch</Button>
+        </StackPanel>
+    </Grid>
+</Window>
