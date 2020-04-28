@@ -67,30 +67,24 @@ namespace JenkinsSentinel.src.jenkinsinput
             {
                 new TextParameter("INSTANCE_PREFIX", ParamType.MAIN, String.Format("{0}-js-${{BUILD_NUMBER}}", user)),
                 new TextParameter("STACK_NAME", ParamType.MAIN, String.Format("{0}-release-{1}-b${{BUILD_NUMBER}}", user, Branch)),
-                new BooleanParameter("DEBUGGABLE", ParamType.MAIN, true),
                 new ListParameter("TARGET_CLOUD", ParamType.MAIN, new List<string> {"tramboolean", "nickel"}),
+                new BooleanParameter("DEBUGGABLE", ParamType.MAIN, true),
+                new BooleanParameter("VERBOSE_LOGS", ParamType.MAIN, true),
                 new BooleanParameter("UPLOAD_LCN_RECEIVER", ParamType.ADVANCED, true),
                 new BooleanParameter("ENABLE_FM", ParamType.ADVANCED, false),
-                new TextParameter("FLAVOR", ParamType.ADVANCED, "m1.large"),
+                new TextParameter("FLAVOR", ParamType.ADVANCED, "m1.large")
+                
             };
         }
 
         /*
-         	
-        STACK_NAME
         IMAGE_NAME	
-        FLAVOR	
-        TARGET_CLOUD	
         MULTINODE
-        DEBUGGABLE
-        UPLOAD_LCN_RECEIVER
         ONLY_IPV4
         FULL_IPV6
-        VERBOSE_LOGS
         APPLY_PATCH
-        ENABLE_FM
         CRM_LATEST
-         */
+        */
     }
 
     public class ITEnvironment : JenkinsTemplate
@@ -118,7 +112,36 @@ namespace JenkinsSentinel.src.jenkinsinput
 
         public override string JobUrl
         {
-            get { return String.Format("https://build13.cci.nokia.net/job/CloudBand/job/CBAM/job/{0}/job/90-cmd-exec/build", Branch); }
+            get { return String.Format("https://build13.cci.nokia.net/job/CloudBand/job/CBAM/job/{0}/job/90-cmd-exec", Branch); }
+        }
+    }
+
+    public class BuildBot : JenkinsTemplate
+    {
+        public BuildBot(string JenkinsUsername, string BranchName = "master")
+            : base(BranchName)
+        {
+            this.user = JenkinsUsername;
+        }
+
+        private string user;
+
+
+
+        public override List<JobEditorParameter> GetMainParameters()
+        {
+            return new List<JobEditorParameter>()
+            {
+                // TODO add environment variables to COMMAND
+                //new TextParameter("COMMAND", ParamType.NON_EDITABLE, "make -j 6 -l 48 cbam-jumpstart.jumpstart"),
+            };
+        }
+
+        public override string TemplateName { get { return "BuildBot"; } }
+
+        public override string JobUrl
+        {
+            get { return String.Format("https://build13.cci.nokia.net/job/CloudBand/job/CBAM/job/{0}/job/90-pipe-bb-{0}", Branch); }
         }
     }
 }

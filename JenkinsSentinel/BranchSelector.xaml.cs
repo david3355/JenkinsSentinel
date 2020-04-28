@@ -25,7 +25,7 @@ namespace JenkinsSentinel
             InitializeComponent();
             this.template = Template;
             this.sentinel = Sentinel;
-            list_branches.ItemsSource = new List<string> { "master", "19.5.2rc", "19.5.1rc" };
+            list_branches.ItemsSource = new List<string> { "master", "19.5.2rc", "19.10.0rc", "19.5.1rc", "19.5.0rc" };
             list_branches.SelectedIndex = 0;
         }
 
