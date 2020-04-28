@@ -38,7 +38,7 @@ namespace JenkinsSentinel
             bool temporary = check_temporary_job.IsChecked.Value;
             if (jobName == String.Empty) jobName = jobUrl;
 
-            
+
             JenkinsJob newJob = new JenkinsJob(jobName, jobUrl, temporary, sentinel.LastIndex + 1);
             newJob.NotifySettings = new NotifySettings
             {
@@ -49,7 +49,7 @@ namespace JenkinsSentinel
             };
             if (temporary) newJob.RemoveIfCompleted = check_remove_done_job.IsChecked.Value;
 
-            sentinel.AddNewJob(newJob);            
+            sentinel.AddNewJob(newJob);
         }
 
         private bool ValidateInput(string JobName, string JobUrl)
@@ -65,8 +65,21 @@ namespace JenkinsSentinel
 
         private void txt_new_job_url_TextChanged(object sender, TextChangedEventArgs e)
         {
+            TryParseJobName(txt_new_job_url.Text);
             if (!ValidateInput(txt_new_job_name.Text, txt_new_job_url.Text)) btn_add_new_job.IsEnabled = false;
             else btn_add_new_job.IsEnabled = true;
+        }
+
+        private void TryParseJobName(string Url)
+        {
+            if (Url == String.Empty) return;
+            string[] parts = Url.Split('/');
+            List<string> nameParts = new List<string>();
+            for (int i = 0; i < parts.Length; i++)
+            {
+                if (parts[i] == "job" && i < parts.Length - 1 && parts[i + 1] != "CloudBand" && parts[i + 1] != "CBAM") nameParts.Add(parts[i + 1]);
+            }
+            txt_new_job_name.Text = String.Join(" ", nameParts);
         }
 
         private void check_temporary_job_Checked(object sender, RoutedEventArgs e)
