@@ -257,6 +257,7 @@ namespace JenkinsSentinel
 
         public void CheckCycleFinished(bool Success)
         {
+            if (list_jobs.Items.Count == 0) return;
             if (Success) lastChecked = DateTime.Now;
             this.Dispatcher.Invoke(new Action(() =>
             {
@@ -268,6 +269,7 @@ namespace JenkinsSentinel
 
         public void CheckCycleExpired()
         {
+            if (list_jobs.Items.Count == 0) return;
             this.Dispatcher.Invoke(new Action(() =>
             {
                 text_status.Visibility = Visibility.Visible;

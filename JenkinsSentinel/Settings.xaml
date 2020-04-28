@@ -17,10 +17,10 @@
             </Grid.RowDefinitions>
 
             <Label Grid.Row="0" Margin="5">Default cloud</Label>
-            <TextBox Name="txt_default_cloud" Grid.Row="0" Grid.Column="1" Margin="5" HorizontalContentAlignment="Center"></TextBox>
+            <TextBox Name="txt_default_cloud" Grid.Row="0" Grid.Column="1" Margin="5" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></TextBox>
             
             <Label Grid.Row="1" Margin="5">Check period (MSec)</Label>
-            <TextBox Name="txt_check_period" Grid.Row="1" Grid.Column="1" Margin="5" HorizontalContentAlignment="Center"></TextBox>
+            <TextBox Name="txt_check_period" Grid.Row="1" Grid.Column="1" Margin="5" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></TextBox>
 
             <CheckBox Name="check_topmost" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="5" ToolTip="Main window is almost on top of the desktop">Window topmost</CheckBox>
 
