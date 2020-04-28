@@ -9,13 +9,15 @@ namespace JenkinsSentinel.src.jenkinsinput
 
     public abstract class JenkinsTemplate
     {
-        public JenkinsTemplate(string BranchName)
+        public JenkinsTemplate(string BranchName, string DefaultCloud)
         {
             this.branch = BranchName;
+            this.defaultCloud = DefaultCloud;
         }
 
         protected JenkinsInput input;
         private string branch;
+        protected string defaultCloud;
 
         public JenkinsInput GetInput()
         {
@@ -46,7 +48,7 @@ namespace JenkinsSentinel.src.jenkinsinput
 
     public class Jumpstart : JenkinsTemplate
     {
-        public Jumpstart(string JenkinsUsername, string BranchName="master") :base(BranchName)
+        public Jumpstart(string JenkinsUsername, string DefaultCloud, string BranchName="master") :base(BranchName, DefaultCloud)
         {
             this.user = JenkinsUsername;
         }
@@ -67,7 +69,7 @@ namespace JenkinsSentinel.src.jenkinsinput
             {
                 new TextParameter("INSTANCE_PREFIX", ParamType.MAIN, String.Format("{0}-js-${{BUILD_NUMBER}}", user)),
                 new TextParameter("STACK_NAME", ParamType.MAIN, String.Format("{0}-release-{1}-b${{BUILD_NUMBER}}", user, Branch)),
-                new ListParameter("TARGET_CLOUD", ParamType.MAIN, new List<string> {"tramboolean", "nickel"}),
+                new ListParameter("TARGET_CLOUD", ParamType.MAIN, new List<string> {defaultCloud, "nickel"}),
                 new BooleanParameter("DEBUGGABLE", ParamType.MAIN, true),
                 new BooleanParameter("VERBOSE_LOGS", ParamType.MAIN, true),
                 new BooleanParameter("UPLOAD_LCN_RECEIVER", ParamType.ADVANCED, true),
@@ -89,8 +91,8 @@ namespace JenkinsSentinel.src.jenkinsinput
 
     public class ITEnvironment : JenkinsTemplate
     {
-        public ITEnvironment(string JenkinsUsername, string BranchName = "master")
-            : base(BranchName)
+        public ITEnvironment(string JenkinsUsername, string DefaultCloud, string BranchName = "master")
+            : base(BranchName, DefaultCloud)
         {
             this.user = JenkinsUsername;
         }
@@ -118,8 +120,8 @@ namespace JenkinsSentinel.src.jenkinsinput
 
     public class BuildBot : JenkinsTemplate
     {
-        public BuildBot(string JenkinsUsername, string BranchName = "master")
-            : base(BranchName)
+        public BuildBot(string JenkinsUsername, string DefaultCloud, string BranchName = "master")
+            : base(BranchName, DefaultCloud)
         {
             this.user = JenkinsUsername;
         }

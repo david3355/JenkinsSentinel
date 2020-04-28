@@ -42,8 +42,12 @@ namespace JenkinsSentinel
                 Sentinel sentinelSave = persistor.ReadJobs();
                 sentinel.Jobs = sentinelSave.Jobs;
                 sentinel.LastIndex = sentinelSave.LastIndex;
+                sentinel.WindowTopmost = sentinelSave.WindowTopmost;
+                sentinel.DefaultCloud = sentinelSave.DefaultCloud;
+                sentinel.InspectFrequency = sentinelSave.InspectFrequency;
             }
 
+            this.Topmost = sentinel.WindowTopmost;
             sentinel.AddReportListener(ShowNotification);
         }
 
@@ -248,6 +252,7 @@ namespace JenkinsSentinel
                 RefreshJobList();
             }));
             persistor.PersistJobs(sentinel);
+            MessageBox.Show("New job added");
         }
 
         public void CheckCycleFinished(bool Success)
@@ -315,7 +320,7 @@ namespace JenkinsSentinel
 
         private void menu_jumpstart_Click(object sender, RoutedEventArgs e)
         {
-            BranchSelector branchSelector = new BranchSelector(new Jumpstart(CurrentUser), sentinel);
+            BranchSelector branchSelector = new BranchSelector(new Jumpstart(CurrentUser, sentinel.DefaultCloud), sentinel);
             branchSelector.Show();
         }
 
@@ -332,6 +337,18 @@ namespace JenkinsSentinel
         private void menu_e2e_env_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Not implemented yet!");
+        }
+
+        private void menu_sentinel_settings_Click(object sender, RoutedEventArgs e)
+        {
+            Settings settings = new Settings(sentinel, SaveSettings);
+            settings.Show();
+        }
+
+        private void SaveSettings()
+        {
+            this.Topmost = sentinel.WindowTopmost;
+            persistor.PersistJobs(sentinel);
         }
     }
 }

@@ -24,6 +24,8 @@ namespace JenkinsSentinel.src
             this.checkTimer = new Timer(InspectFrequencyMS);
             this.checkTimer.Elapsed += CheckJobs;
             this.lastIndex = 0;
+            this.windowTopmost = false;
+            this.defaultCloud = "tramboolean";
         }
 
         public Sentinel(int InspectFrequencyMS, ISentinelEvents EventHandler)
@@ -43,6 +45,8 @@ namespace JenkinsSentinel.src
         private Timer checkTimer;
         private ISentinelEvents eventHandler;
         private int lastIndex;
+        private string defaultCloud;
+        private bool windowTopmost;
 
 
         [XmlArrayAttribute("Jobs")]
@@ -63,7 +67,27 @@ namespace JenkinsSentinel.src
         public int InspectFrequency
         {
             get { return inspectFrequency; }
-            set { this.inspectFrequency = value; }
+            set
+            {
+                bool wasEnabled = checkTimer != null ? checkTimer.Enabled : false;
+                if (checkTimer != null && wasEnabled) StopWatching();
+                this.inspectFrequency = value;
+                if (checkTimer != null && !checkTimer.Enabled && wasEnabled) StartWatching();
+            }
+        }
+
+        [XmlAttribute]
+        public string DefaultCloud
+        {
+            get { return defaultCloud; }
+            set { this.defaultCloud = value; }
+        }
+
+        [XmlAttribute]
+        public bool WindowTopmost
+        {
+            get { return windowTopmost; }
+            set { this.windowTopmost = value; }
         }
 
         void CheckJobs(object sender, ElapsedEventArgs e)
@@ -80,7 +104,7 @@ namespace JenkinsSentinel.src
             eventHandler.CheckCycleFinished(success);
         }
 
-        public bool UpdateJob(JenkinsJob Job, bool Notify=true)
+        public bool UpdateJob(JenkinsJob Job, bool Notify = true)
         {
             if (Job.IsTemporary && !Job.Building)
             {
@@ -112,13 +136,14 @@ namespace JenkinsSentinel.src
 
         public void StartWatching()
         {
-            this.checkTimer.Start();
+            checkTimer.Interval = inspectFrequency;
+            checkTimer.Start();
             watching = true;
         }
 
         public void StopWatching()
         {
-            this.checkTimer.Stop();
+            if (checkTimer != null) this.checkTimer.Stop();
             watching = false;
         }
 

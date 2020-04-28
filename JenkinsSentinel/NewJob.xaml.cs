@@ -49,11 +49,7 @@ namespace JenkinsSentinel
             };
             if (temporary) newJob.RemoveIfCompleted = check_remove_done_job.IsChecked.Value;
 
-            sentinel.AddNewJob(newJob);
-            persistor.PersistJobs(sentinel);
-            jobs.Items.Add(newJob);
-            jobs.Items.Refresh();
-            
+            sentinel.AddNewJob(newJob);            
         }
 
         private bool ValidateInput(string JobName, string JobUrl)
